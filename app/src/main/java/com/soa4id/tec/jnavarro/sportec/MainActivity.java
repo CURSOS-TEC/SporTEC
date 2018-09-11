@@ -1,5 +1,6 @@
 package com.soa4id.tec.jnavarro.sportec;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -10,5 +11,9 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(this, CredentialsActivity.class);
+        startActivity(intent);
+
     }
 }

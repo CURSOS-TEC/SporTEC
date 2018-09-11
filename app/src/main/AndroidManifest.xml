@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CredentialsActivity"
+            android:theme="@style/AppTheme.Credentials"></activity>
     </application>
 
 </manifest>
