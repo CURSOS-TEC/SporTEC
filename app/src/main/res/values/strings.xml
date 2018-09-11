@@ -12,5 +12,7 @@
     <string name="credential_activity_user_password_lost">¿Olvidó su contraseña?</string>
     <string name="credential_activity_successful_login_greeting">Bienvenido: %s</string>
     <string name="credential_activity_successful_login_warning">Error: completa todos los campos.</string>
+    <string name="credential_activity_take_photo">Tomar foto</string>
+    <string name="credential_activity_select_sports">Deportes</string>
 
 </resources>

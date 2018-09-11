@@ -32,4 +32,16 @@
         <item name="colorAccent">@android:color/white</item>
     </style>
 
+    <style name="SoaButton">
+        <item name="android:layout_gravity"> center</item>
+        <item name="android:background">@android:color/white </item>
+        <item name="android:layout_width">wrap_content </item>
+        <item name="android:layout_height">wrap_content </item>
+        <item name="android:textColor"> @color/colorPrimaryText</item>
+        <item name="android:elevation">15dp</item>
+        <item name="android:padding">4dp </item>
+        <item name="android:layout_margin">5dp </item>
+        <item name="android:layout_weight">1 </item>
+    </style>
+
 </resources>

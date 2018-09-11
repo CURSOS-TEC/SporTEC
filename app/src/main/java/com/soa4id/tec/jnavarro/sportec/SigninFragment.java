@@ -8,9 +8,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class SigninFragment extends Fragment {
     private View mView;
+    private EditText mEditTextName;
+    private EditText mEditTextEmail;
+    private EditText mEditTextPassword;
+    private EditText mEditTextPasswordConfirm;
+    private Button   mButtonSummit;
+    private Button   mButtonTakePhoto;
 
     /**
      *
