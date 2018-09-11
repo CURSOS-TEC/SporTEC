@@ -2,4 +2,11 @@
     <string name="app_name">SporTEC</string>
     <string name="credential_activity_tab_login">Iniciar Sesión</string>
     <string name="credential_activity_tab_signin">Registrarse</string>
+    <string name="credential_activity_login_title">Iniciar Sesión</string>
+    <string name="credential_activity_user_email">Correo Electrónico</string>
+    <string name="credential_activity_user_name">Nombre</string>
+    <string name="credential_activity_user_sports">Deportes preferidos</string>
+    <string name="credential_activity_user_password">Contraseña</string>
+    <string name="credential_activity_user_password_confirm">Confirmar contraseña</string>
+    <string name="credential_activity_user_password_lost">¿Olvidó su contraseña?</string>
 </resources>
