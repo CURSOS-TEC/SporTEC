@@ -13,11 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import credentials.CredentialsHelper;
+
 public class LoginFragment extends Fragment {
     private View mView;
     private EditText mEditTextEmail;
     private EditText mEditTextPassword;
     private Button mButtonSummit;
+    private CredentialsHelper mCredentialsHelper;
 
 
     /**
@@ -36,6 +39,8 @@ public class LoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        this.mCredentialsHelper = new CredentialsHelper();
+
         this.mView = inflater.inflate(R.layout.login_fragment,container,false);
 
         this.mEditTextEmail = mView.findViewById(R.id.login_fragment_email);

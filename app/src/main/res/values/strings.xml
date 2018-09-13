@@ -15,4 +15,15 @@
     <string name="credential_activity_take_photo">Tomar foto</string>
     <string name="credential_activity_select_sports">Deportes</string>
 
+    <string-array name="sports_local_options">
+        <item>Baloncesto</item>
+        <item>Fútbol</item>
+        <item>Natación</item>
+        <item>Boxeo</item>
+        <item>Atletismo</item>
+        <item>Tenis</item>
+        <item>Golf</item>
+        <item>Baseball</item>
+    </string-array>
+
 </resources>

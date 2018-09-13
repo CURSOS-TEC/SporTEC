@@ -1,6 +1,8 @@
 
 package com.soa4id.tec.jnavarro.sportec;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,6 +17,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
+import credentials.CredentialsHelper;
+
 public class SigninFragment extends Fragment {
     private View mView;
     private EditText mEditTextName;
@@ -24,6 +30,11 @@ public class SigninFragment extends Fragment {
     private Button   mButtonSummit;
     private Button   mButtonTakePhoto;
     private Button   mButtonSports;
+    private CredentialsHelper mCredentialsHelper;
+    private Bitmap mProfilePicture;
+    private String[] mSportOptions;
+    private Boolean[] mCheckSports;
+
 
     /**
      *
@@ -43,6 +54,10 @@ public class SigninFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.mView = inflater.inflate(R.layout.signin_fragment,container,false);
+
+        this.mCredentialsHelper = new CredentialsHelper();
+        this.mSportOptions = this.mView.getResources().getStringArray(R.array.sports_local_options);
+        this.mCheckSports = new Boolean[this.mSportOptions.length];
 
         this.mEditTextName = this.mView.findViewById(R.id.signin_fragment_name);
         this.mEditTextEmail = this.mView.findViewById(R.id.signin_fragment_email);
@@ -68,23 +83,43 @@ public class SigninFragment extends Fragment {
             }
         });
 
-        this.mButtonSports.setOnLongClickListener(new View.OnLongClickListener() {
+        this.mButtonSports.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                return false;
+            public void onClick(View v) {
+
+
             }
         });
-
         return this.mView;
     }
 
+    /**
+     * Manages the result of the interaction between this app and the camera app
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+        this.mProfilePicture = (Bitmap)data.getExtras().get("data");
         Snackbar.make(
                 this.mView,
-                String.valueOf(bitmap.getGenerationId()),
+                String.valueOf(this.mProfilePicture.getGenerationId()),
                 Snackbar.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Tries to register an user.
+     */
+    public void signIn(){
+
+    }
+
+    /**
+     * Gets the sport options to select
+     */
+    public void renderSportOptions(){
+
     }
 }
