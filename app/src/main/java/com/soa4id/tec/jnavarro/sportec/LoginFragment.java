@@ -1,5 +1,6 @@
 package com.soa4id.tec.jnavarro.sportec;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.JsonObject;
+
 import credentials.CredentialsHelper;
 
 public class LoginFragment extends Fragment {
@@ -21,6 +24,7 @@ public class LoginFragment extends Fragment {
     private EditText mEditTextPassword;
     private Button mButtonSummit;
     private CredentialsHelper mCredentialsHelper;
+    private ProgressDialog mProgress;
 
 
     /**
@@ -75,6 +79,11 @@ public class LoginFragment extends Fragment {
         }else{
             String greeting =
                     mView.getResources().getString(R.string.credential_activity_successful_login_greeting);
+
+            this.mCredentialsHelper.login(mView.getContext(),email,password);
+
+
+
             Snackbar.make(
                     this.mView,
                     String.format(greeting,email),

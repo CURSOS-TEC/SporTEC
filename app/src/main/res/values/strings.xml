@@ -26,4 +26,7 @@
         <item>Baseball</item>
     </string-array>
 
+
+    <string name="login_dialog"> Iniciando Sesión </string>
+
 </resources>
