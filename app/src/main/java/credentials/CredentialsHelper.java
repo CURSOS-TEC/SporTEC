@@ -57,14 +57,7 @@ public class CredentialsHelper {
 
 
         LogInAsyncTask task = new LogInAsyncTask(context);
-        try{
-            JsonObject jsonObject = task.execute(email,password).get();
-            Log.i("credentials",jsonObject.toString());
-        }
-        catch(Exception e){
-           Log.i("credentials",e.getMessage());
-        }
-
+        task.execute(email,password);
 
     }
 }

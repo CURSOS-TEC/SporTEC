@@ -82,15 +82,6 @@ public class LoginFragment extends Fragment {
 
             this.mCredentialsHelper.login(mView.getContext(),email,password);
 
-
-
-            Snackbar.make(
-                    this.mView,
-                    String.format(greeting,email),
-                    Snackbar.LENGTH_SHORT).show();
-
-            //Intent intent = new Intent(mView.getContext(), MainActivity.class);
-            //startActivity(intent);
         }
     }
 }

@@ -14,6 +14,10 @@
     <string name="credential_activity_successful_login_warning">Error: completa todos los campos.</string>
     <string name="credential_activity_take_photo">Tomar foto</string>
     <string name="credential_activity_select_sports">Deportes</string>
+    <string name="login_dialog"> Iniciando Sesión </string>
+    <string name="login_error_credentials"> Credenciales incorrectas</string>
+    <string name="login_error_querying"> Credenciales incorrectas</string>
+
 
     <string-array name="sports_local_options">
         <item>Baloncesto</item>
@@ -27,6 +31,5 @@
     </string-array>
 
 
-    <string name="login_dialog"> Iniciando Sesión </string>
 
 </resources>

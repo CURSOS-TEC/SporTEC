@@ -1,19 +1,19 @@
 package credentials;
-
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
-
+import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.soa4id.tec.jnavarro.sportec.MainActivity;
 import com.soa4id.tec.jnavarro.sportec.R;
-
 import network.API;
 
-public class LogInAsyncTask extends AsyncTask<String,Void, JsonObject> {
+public class LogInAsyncTask extends AsyncTask<String,Void, Boolean> {
     private Context mContext;
     private ProgressDialog mProgress;
     private JsonObject mJson;
@@ -25,6 +25,7 @@ public class LogInAsyncTask extends AsyncTask<String,Void, JsonObject> {
      */
     public LogInAsyncTask( Context context) {
         this.mContext = context;
+        this.resultop = new JsonObject();
     }
 
     /**
@@ -33,7 +34,7 @@ public class LogInAsyncTask extends AsyncTask<String,Void, JsonObject> {
      * @return
      */
     @Override
-    protected JsonObject doInBackground(final String... credentials) {
+    protected Boolean doInBackground(final String... credentials) {
         mJson = new JsonObject();
         mJson.addProperty("email",credentials[0]);
         mJson.addProperty("password",credentials[1]);
@@ -47,13 +48,26 @@ public class LogInAsyncTask extends AsyncTask<String,Void, JsonObject> {
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
+                        if (e != null){
+                            String msg = mContext.getResources().getString(R.string.login_error_querying);
+                            Toast.makeText(mContext,msg,Toast.LENGTH_SHORT).show();
+                        }
                         Log.i("JSON ",result.toString());//TODO: Delete this on production
-                        mProgress.dismiss();
-                        resultop = result;
+                        if(result.getAsJsonObject("error") != null){
+                            Log.i("JSON ERROR ","DETECTED");//TODO: Delete this on production
+                            String msg = result.getAsJsonObject("error").get("message").toString();
+                            Toast.makeText(mContext,msg,Toast.LENGTH_SHORT).show();
+                        }else{
+                            Log.i("JSON OK ",result.get("userId").toString());//TODO: Delete this on production
+                            Toast.makeText(mContext,credentials[0],Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(mContext, MainActivity.class);
+                            mContext.startActivity(intent);
+                        }
                         mProgress.dismiss();
                     }
                 });
-        return resultop;
+        Log.i("JSON", resultop.toString());//TODO: Delete this on production
+        return null;
     }
 
     /**
@@ -73,7 +87,8 @@ public class LogInAsyncTask extends AsyncTask<String,Void, JsonObject> {
      * @param presultop
      */
     @Override
-    protected void onPostExecute(JsonObject presultop) {
+    protected void onPostExecute(Boolean presultop) {
         super.onPostExecute(presultop);
+        Log.i("JSON", resultop.toString());//TODO: Delete this on production
     }
 }
