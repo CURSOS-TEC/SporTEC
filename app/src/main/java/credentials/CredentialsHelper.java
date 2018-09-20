@@ -2,6 +2,7 @@ package credentials;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.ProgressBar;
@@ -13,6 +14,15 @@ import java.util.concurrent.ExecutionException;
 
 public class CredentialsHelper {
 
+    private Context mContext;
+
+    /**
+     * Sets the context
+     * @param mContext
+     */
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
+    }
 
 
     /**
@@ -54,6 +64,7 @@ public class CredentialsHelper {
     public void  login(Context context,
                        String email,
                        String password){
+
 
 
         LogInAsyncTask task = new LogInAsyncTask(context);

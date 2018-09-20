@@ -27,6 +27,7 @@ public class LoginFragment extends Fragment {
     private ProgressDialog mProgress;
 
 
+
     /**
      *
      */
@@ -83,5 +84,6 @@ public class LoginFragment extends Fragment {
             this.mCredentialsHelper.login(mView.getContext(),email,password);
 
         }
+        Log.i("JSON", "LoginFragment post login");//TODO: Delete this on production
     }
 }
