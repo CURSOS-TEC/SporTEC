@@ -17,7 +17,8 @@
     <string name="login_dialog"> Iniciando Sesión </string>
     <string name="login_error_credentials"> Credenciales incorrectas</string>
     <string name="login_error_querying"> Credenciales incorrectas</string>
-
+    <string name="open_drawer">Open</string>
+    <string name="close_drawer">Close</string>
 
     <string-array name="sports_local_options">
         <item>Baloncesto</item>
