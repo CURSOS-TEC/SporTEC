@@ -27,8 +27,11 @@ public class MainActivity extends AppCompatActivity {
     private void checkUserLogged () {
         DBHelper helper = new DBHelper(MainActivity.this);
         String result = helper.checkUserCredentials();
-        Toast.makeText(MainActivity.this,result,Toast.LENGTH_SHORT).show();
-        //Intent intent = new Intent(this, RegisterActivity.class);
-        //startActivity(intent);
+        if (!(result.equals(""))){
+            Toast.makeText(MainActivity.this,result,Toast.LENGTH_SHORT).show();
+        }else{
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
     }
 }

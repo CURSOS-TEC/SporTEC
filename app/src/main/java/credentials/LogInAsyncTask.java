@@ -37,7 +37,7 @@ public class LogInAsyncTask extends AsyncTask<String,Void, Boolean> {
      */
     @Override
     protected Boolean doInBackground(final String... credentials) {
-        DBHelper helper = new DBHelper(mContext);
+        final DBHelper helper = new DBHelper(mContext);
         mJson = new JsonObject();
         mJson.addProperty("email",credentials[0]);
         mJson.addProperty("password",credentials[1]);
@@ -62,6 +62,12 @@ public class LogInAsyncTask extends AsyncTask<String,Void, Boolean> {
                             Toast.makeText(mContext,msg,Toast.LENGTH_SHORT).show();
                         }else{
                             Log.i("JSON OK ",result.get("userId").toString());//TODO: Delete this on production
+                            String userId = result.get("userId").toString();
+                            String userName = "Test Name";
+                            String email = credentials[0] ;
+                            String image =  "image";
+                            helper.removeCredentials();
+                            helper.addUserCredentials(userId,userName,email,image);
                             Toast.makeText(mContext,credentials[0],Toast.LENGTH_SHORT).show();
                         }
 

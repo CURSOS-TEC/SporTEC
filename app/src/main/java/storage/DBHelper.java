@@ -139,20 +139,35 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return result;
     }
-    /*public long addUserCredentials (String pName,String pLastName, String pEmail, String pPassword, int pId ){
+
+    /**
+     * Adds a sesión to tha user
+     * @param userId
+     * @param username
+     * @param email
+     * @param image
+     * @return
+     */
+    public long addUserCredentials (String userId,String username, String email, String image){
         SQLiteDatabase db = this.getWritableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(UserContract.User.COLUMN_NAME_USER_NAME, pName);
-        values.put(UserContract.User.COLUMN_NAME_USER_LAST, pLastName);
-        values.put(UserContract.User.COLUMN_NAME_USER_EMAIL, pEmail);
-        values.put(UserContract.User.COLUMN_NAME_USER_PASSWORD, pPassword);
-        values.put(UserContract.User.COLUMN_NAME_USER_ROLE, pId);
+        values.put(UserContract.User.COLUMN_NAME_USER_DB_ID, userId);
+        values.put(UserContract.User.COLUMN_NAME_USER_NAME, username);
+        values.put(UserContract.User.COLUMN_NAME_USER_EMAIL, email);
+        values.put(UserContract.User.COLUMN_NAME_USER_IMAGE, image);
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(UserContract.User.TABLE_NAME, null, values);
         return newRowId;
+    }
 
-    }*/
+    public int removeCredentials (){
+        int result = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String table = UserContract.User.TABLE_NAME;
+        result = db.delete(table, null, null);
+        return  result;
+    }
 
 
 }
