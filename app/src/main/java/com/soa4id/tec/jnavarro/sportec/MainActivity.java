@@ -3,6 +3,10 @@ package com.soa4id.tec.jnavarro.sportec;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import storage.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,9 +14,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); Intent intent = new Intent(this, CredentialsActivity.class);
-        startActivity(intent);
+        setContentView(R.layout.activity_main);
+
+        checkUserLogged();
 
 
+    }
+
+    /**
+     *
+     */
+    private void checkUserLogged () {
+        DBHelper helper = new DBHelper(MainActivity.this);
+        String result = helper.checkUserCredentials();
+        Toast.makeText(MainActivity.this,result,Toast.LENGTH_SHORT).show();
+        //Intent intent = new Intent(this, RegisterActivity.class);
+        //startActivity(intent);
     }
 }

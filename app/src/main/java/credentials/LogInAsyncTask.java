@@ -13,6 +13,7 @@ import com.koushikdutta.ion.Ion;
 import com.soa4id.tec.jnavarro.sportec.MainActivity;
 import com.soa4id.tec.jnavarro.sportec.R;
 import network.API;
+import storage.DBHelper;
 
 public class LogInAsyncTask extends AsyncTask<String,Void, Boolean> {
     private Context mContext;
@@ -36,6 +37,7 @@ public class LogInAsyncTask extends AsyncTask<String,Void, Boolean> {
      */
     @Override
     protected Boolean doInBackground(final String... credentials) {
+        DBHelper helper = new DBHelper(mContext);
         mJson = new JsonObject();
         mJson.addProperty("email",credentials[0]);
         mJson.addProperty("password",credentials[1]);
