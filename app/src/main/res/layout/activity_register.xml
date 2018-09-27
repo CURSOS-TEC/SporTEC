@@ -109,13 +109,15 @@
                             android:text="@string/credential_activity_take_photo"
                             android:drawableLeft="@drawable/ic_photo"
                             android:drawableTint="@color/colorPrimaryText"
-                            style="@style/SoaButton"/>
+                            style="@style/SoaButton"
+                            android:layout_margin="10dp"/>
                         <Button
                             android:id="@+id/signin_fragment_select_sports"
                             android:text="@string/credential_activity_select_sports"
                             android:drawableLeft="@drawable/ic_sports"
                             android:drawableTint="@color/colorPrimaryText"
-                            style="@style/SoaButton"/>
+                            style="@style/SoaButton"
+                            android:layout_margin="10dp"/>
 
                     </LinearLayout>
                     <LinearLayout
@@ -125,7 +127,8 @@
                         <Button
                             android:id="@+id/signin_fragment_summit"
                             android:text="@string/credential_activity_tab_signin"
-                            style="@style/SoaButton"/>
+                            style="@style/SoaButton"
+                            android:layout_margin="10dp"/>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

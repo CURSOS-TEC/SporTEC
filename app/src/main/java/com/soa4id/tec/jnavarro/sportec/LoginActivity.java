@@ -1,6 +1,7 @@
 package com.soa4id.tec.jnavarro.sportec;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mEditTextEmail;
     private EditText mEditTextPassword;
     private Button mButtonSummit;
+    private Button mOpenSignIn;
     private CredentialsHelper mCredentialsHelper;
     private ProgressDialog mProgress;
 
@@ -28,11 +30,20 @@ public class LoginActivity extends AppCompatActivity {
         this.mEditTextEmail =findViewById(R.id.login_fragment_email);
         this.mEditTextPassword = findViewById(R.id.login_fragment_password);
         this.mButtonSummit = findViewById(R.id.login_fragment_summit);
+        this.mOpenSignIn = findViewById(R.id.login_signin_fragment_summit);
+
 
         this.mButtonSummit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login(v);
+            }
+        });
+        this.mOpenSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
