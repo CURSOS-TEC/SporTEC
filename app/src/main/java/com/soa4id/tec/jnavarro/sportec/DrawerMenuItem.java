@@ -1,13 +1,19 @@
 package com.soa4id.tec.jnavarro.sportec;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
+
+import credentials.CredentialsHelper;
 
 @NonReusable
 @Layout(R.layout.drawer_item)
@@ -67,13 +73,38 @@ public class DrawerMenuItem {
                 itemNameTxt.setText("Terms");
                 break;
             case DRAWER_MENU_ITEM_LOGOUT:
-                itemIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_email));
+                itemIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_exit));
                 itemNameTxt.setText("Logout");
                 break;
         }
     }
     public void setDrawerCallBack(DrawerCallBack callBack) {
         mCallBack = callBack;
+
+    }
+
+    @Click(R.id.mainView)
+    private void onMenuItemClick(){
+        switch (mMenuPosition){
+            case DRAWER_MENU_ITEM_LOGOUT:
+                Toast.makeText(mContext,"Log out",Toast.LENGTH_SHORT).show();
+                CredentialsHelper helper = new CredentialsHelper();
+                helper.setmContext(mContext);
+                helper.logout();
+
+                if(mCallBack != null){
+                    mCallBack.onProfileMenuSelected();
+                }
+                try{
+                    Intent intent = new Intent(mContext,LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                }
+                catch (Exception e){
+                    Log.i("Log Out", e.getMessage());
+                }
+                break;
+        }
     }
 
     public interface DrawerCallBack{

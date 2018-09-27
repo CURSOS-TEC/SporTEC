@@ -71,4 +71,13 @@ public class CredentialsHelper {
         task.execute(email,password);
 
     }
+
+    /**
+     *
+     */
+    public void logout(){
+        LogOutAsyncTask task = new LogOutAsyncTask(mContext);
+        task.execute("test");
+        Log.i("Log Out", "Called logout method..");
+    }
 }
