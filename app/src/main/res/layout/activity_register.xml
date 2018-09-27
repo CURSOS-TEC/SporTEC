@@ -110,14 +110,16 @@
                             android:drawableLeft="@drawable/ic_photo"
                             android:drawableTint="@color/colorPrimaryText"
                             style="@style/SoaButton"
-                            android:layout_margin="10dp"/>
+                            android:layout_margin="10dp"
+                            android:padding="10dp"/>
                         <Button
                             android:id="@+id/signin_fragment_select_sports"
                             android:text="@string/credential_activity_select_sports"
                             android:drawableLeft="@drawable/ic_sports"
                             android:drawableTint="@color/colorPrimaryText"
                             style="@style/SoaButton"
-                            android:layout_margin="10dp"/>
+                            android:layout_margin="10dp"
+                            android:padding="10dp"/>
 
                     </LinearLayout>
                     <LinearLayout

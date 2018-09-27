@@ -21,6 +21,8 @@
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
 
+    <string name="message_phototaken">  La fotografía ha sido tomada</string>
+
     <string-array name="sports_local_options">
         <item>Baloncesto</item>
         <item>Fútbol</item>

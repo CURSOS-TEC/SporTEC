@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import credentials.CredentialsHelper;
+import soaImage.ImageConverter;
 
 public class RegisterActivity extends AppCompatActivity {
     private View mView;
@@ -82,9 +83,12 @@ public class RegisterActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         this.mProfilePicture = (Bitmap)data.getExtras().get("data");
+        ImageConverter converter = new ImageConverter();
+        String dataStr = converter.BitMapToString(this.mProfilePicture);
+        String message = getResources().getString(R.string.message_phototaken);
         Snackbar.make(
                 this.mView,
-                String.valueOf(this.mProfilePicture.getGenerationId()),
+                message, /*String.valueOf(this.mProfilePicture.getGenerationId())*/
                 Snackbar.LENGTH_SHORT).show();
     }
 
