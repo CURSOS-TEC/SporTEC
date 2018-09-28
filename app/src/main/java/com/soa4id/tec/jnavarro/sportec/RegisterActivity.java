@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import credentials.CredentialsHelper;
 import soaImage.ImageConverter;
+import sport.GetSportAsyncTask;
 
 public class RegisterActivity extends AppCompatActivity {
     private View mView;
@@ -65,8 +66,8 @@ public class RegisterActivity extends AppCompatActivity {
         this.mButtonSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                GetSportAsyncTask task = new GetSportAsyncTask(RegisterActivity.this);
+                task.execute("param");
             }
         });
 

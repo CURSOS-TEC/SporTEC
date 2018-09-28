@@ -22,6 +22,7 @@
     <string name="close_drawer">Close</string>
 
     <string name="message_phototaken">  La fotografía ha sido tomada</string>
+    <string name="message_fetchsports">  Descargando deportes</string>
 
     <string-array name="sports_local_options">
         <item>Baloncesto</item>
