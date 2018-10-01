@@ -159,7 +159,8 @@ public class RegisterActivity extends AppCompatActivity {
                         newUser.addProperty("password",password);
                         newUser.addProperty("username",email);//TODO: Change to a real username
                         newUser.addProperty("photo",this.mProfilePic);
-                        Log.i("JSON User usmmit", newUser.toString());//:TODO Delete this on production
+                        newUser.addProperty("sports",this.mUserSports.toString());
+                        Log.i("JSON User usmmit", newUser.get("sports").toString());//:TODO Delete this on production
                     }else{
                         Snackbar.make(getCurrentFocus(),"Foto de Perfil no seleccionada",Snackbar.LENGTH_SHORT).show();
                     }
