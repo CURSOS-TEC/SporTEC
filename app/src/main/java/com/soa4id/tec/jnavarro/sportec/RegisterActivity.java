@@ -16,17 +16,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import credentials.CredentialsHelper;
+import credentials.LogInAsyncTask;
 import network.API;
 import soaImage.ImageConverter;
 
@@ -97,12 +102,13 @@ public class RegisterActivity extends AppCompatActivity {
         this.mButtonSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] sports = getApplication().getResources().getStringArray(R.array.sports_local_options);
+                /*String[] sports = getApplication().getResources().getStringArray(R.array.sports_local_options);
                 try{
                     renderSportOptions(sports);
                 }catch (Exception e){
                     Log.i("JSON",e.getCause().toString());
-                }
+                }*/
+                signIn();
 
             }
         });
@@ -133,7 +139,8 @@ public class RegisterActivity extends AppCompatActivity {
      * Tries to register an user.
      */
     public void signIn(){
-
+        GetSportAsyncTask task = new GetSportAsyncTask();
+        task.execute("");
     }
 
     /**
@@ -172,18 +179,17 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Class that renders the sport options
+     */
     private class GetSportAsyncTask extends AsyncTask<String,Void, Boolean> {
-        private Context mContext;
         private ProgressDialog mProgress;
         private JsonObject mJson;
 
         /**
          *
-         * @param context
          */
-        public GetSportAsyncTask(Context context){
-            this.mContext = context;
+        public GetSportAsyncTask(){
         }
 
         /**
@@ -193,26 +199,46 @@ public class RegisterActivity extends AppCompatActivity {
          */
         @Override
         protected Boolean doInBackground(final String... params) {
+            Log.i("JSON SPORTS","Do in background");//TODO: Delete this on production
             mJson = new JsonObject();
-            Ion.with(mContext)
-                .load(API.SPORTS)
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonArray result) {
-                    if (e != null){
-
-                    }else{
-                        List<String> resultSports;
-                        for (int i = 0; i < result.size(); i ++){
-                            String sportName = result.get(i).getAsString();
+            try{
+                Ion.with(RegisterActivity.this)
+                    .load(API.SPORTS)
+                    .asJsonArray()
+                    .setCallback(new FutureCallback<JsonArray>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonArray result) {
+                            if (e != null){
+                                Log.i("JSON SPORTS  ION ERROR",e.getMessage());//TODO: Delete this on production
+                            }else{
+                                Log.i("JSON SPORTS  IN RESULT",result.toString());//TODO: Delete this on production
+                                try{
+                                    ArrayList<String> stringArrayList = new ArrayList<String>();
+                                    for (JsonElement sportIterator : result){
+                                        JsonObject sport = sportIterator.getAsJsonObject();
+                                        String sportName = sport.get("name").getAsString();
+                                        stringArrayList.add(sportName);
+                                    }
+                                    String [] stringArray = stringArrayList.toArray(new String[stringArrayList.size()]);
+                                    try{
+                                        renderSportOptions(stringArray);
+                                    }catch (Exception ee){
+                                        Log.i("JSON",ee.getCause().toString());
+                                    }
+                                    Log.i("JSON SPORTS String[] ",stringArrayList.toString());//TODO: Delete this on production
+                                }
+                                catch(Exception ex){
+                                    Log.i("JSON SPORTS Error ",ex.getMessage());//TODO: Delete this on production
+                                }
+                            }
+                            //Log.i("JSON SPORTS",result.toString());//TODO: Delete this on production
+                            mProgress.dismiss();
                         }
-
-                    }
-                    Log.i("JSON SPORTS",result.toString());//TODO: Delete this on production
-                    mProgress.dismiss();
-                    }
-                });
+                    });
+            }
+            catch(Exception e){
+                Log.i("JSON SPORTS ERROR",e.getMessage());//TODO: Delete this on production
+            }
             return null;
         }
 
@@ -222,11 +248,10 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgress = new ProgressDialog(this.mContext);
-            mProgress.setMessage(mContext.getResources().getString(R.string.message_fetchsports));
+            mProgress = new ProgressDialog(RegisterActivity.this);
+            mProgress.setMessage(RegisterActivity.this.getResources().getString(R.string.message_fetchsports));
             mProgress.setIndeterminate(true);
             mProgress.show();
-
         }
 
     }
