@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import credentials.CredentialsHelper;
 import credentials.LogInAsyncTask;
@@ -52,7 +53,8 @@ public class RegisterActivity extends AppCompatActivity {
     private String[] mListItems;
     private boolean[] mCheckedItems;
     private ArrayList<Integer> mUserItems = new ArrayList<>();
-
+    private String mProfilePic;
+    private ArrayList<String> mUserSports;
 
 
     @Override
@@ -67,18 +69,18 @@ public class RegisterActivity extends AppCompatActivity {
         mSportOptions[2] = "Sport2";
         mCheckedItems = new boolean[mSportOptions.length];
 
-
+        this.mUserSports = new ArrayList<String>();
 
 
         this.mCredentialsHelper = new CredentialsHelper();
         this.mSportOptions = getResources().getStringArray(R.array.sports_local_options);
         this.mCheckSports = new Boolean[this.mSportOptions.length];
 
-        this.mEditTextName = findViewById(R.id.signin_fragment_name);
-        this.mEditTextEmail = findViewById(R.id.signin_fragment_email);
-        this.mEditTextPassword = findViewById(R.id.login_fragment_password);
-        this.mEditTextPasswordConfirm =findViewById(R.id.signin_fragment_password_confirm);
-        this.mButtonSummit = findViewById(R.id.signin_fragment_summit);
+        this.mEditTextName = findViewById(R.id.register_activity_fragment_name);
+        this.mEditTextEmail = findViewById(R.id.register_activity_fragment_email);
+        this.mEditTextPassword = findViewById(R.id.register_activity_fragment_password);
+        this.mEditTextPasswordConfirm =findViewById(R.id.register_activity_fragment_password_confirm);
+        this.mButtonSummit = findViewById(R.id.register_activity_signin_summit);
         this.mButtonTakePhoto = findViewById(R.id.signin_fragment_take_photo);
         this.mButtonSports = findViewById(R.id.signin_fragment_select_sports);
 
@@ -95,21 +97,15 @@ public class RegisterActivity extends AppCompatActivity {
         this.mButtonSummit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                signIn();
             }
         });
 
         this.mButtonSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*String[] sports = getApplication().getResources().getStringArray(R.array.sports_local_options);
-                try{
-                    renderSportOptions(sports);
-                }catch (Exception e){
-                    Log.i("JSON",e.getCause().toString());
-                }*/
-                signIn();
-
+                GetSportAsyncTask task = new GetSportAsyncTask();
+                task.execute("");
             }
         });
 
@@ -127,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         this.mProfilePicture = (Bitmap)data.getExtras().get("data");
         ImageConverter converter = new ImageConverter();
-        String dataStr = converter.BitMapToString(this.mProfilePicture);
+        this.mProfilePic = converter.BitMapToString(this.mProfilePicture);
         String message = getResources().getString(R.string.message_phototaken);
         Snackbar.make(
                 this.mView,
@@ -139,23 +135,72 @@ public class RegisterActivity extends AppCompatActivity {
      * Tries to register an user.
      */
     public void signIn(){
-        GetSportAsyncTask task = new GetSportAsyncTask();
-        task.execute("");
+        //Create the user object.
+
+        JsonObject newUser = new JsonObject();
+        String name= this.mEditTextName.getText().toString();
+        String email = this.mEditTextEmail.getText().toString();
+        String password = this.mEditTextPassword.getText().toString();
+        String passwordConfirm = this.mEditTextPasswordConfirm.getText().toString();
+
+
+
+
+        if( !(name.equals(""))
+            && !(email.equals(""))
+            && !(password.equals(""))
+            && !(passwordConfirm.equals(""))){
+
+            if(password.equals(passwordConfirm)){
+                try{
+                    if(this.mProfilePic != null){
+                        newUser.addProperty("name",name);
+                        newUser.addProperty("email",email);
+                        newUser.addProperty("password",password);
+                        newUser.addProperty("username",email);//TODO: Change to a real username
+                        newUser.addProperty("photo",this.mProfilePic);
+                        Log.i("JSON User usmmit", newUser.toString());//:TODO Delete this on production
+                    }else{
+                        Snackbar.make(getCurrentFocus(),"Foto de Perfil no seleccionada",Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception ee) {
+                    Log.i("JSON ERROR", ee.getMessage());//:TODO Delete this on production
+                }
+            }else {
+                Snackbar.make(getCurrentFocus(),"Contraseñas deben de ser igules",Snackbar.LENGTH_SHORT).show();
+                this.mEditTextPassword.setText("");
+                this.mEditTextPasswordConfirm.setText("");
+            }
+        }else{
+            Snackbar.make(getCurrentFocus(),"Campos incompletos",Snackbar.LENGTH_SHORT).show();
+        }
+
     }
 
     /**
      * Gets the sport options to select
      */
-    public void renderSportOptions(String[] options){
+    public void renderSportOptions(final String[] options){
         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
         final boolean[] checkedArray = new boolean[options.length];
         final List<String> optList = Arrays.asList(options);
+        mUserSports.clear();
         builder.setTitle("Deportes");
         builder.setMultiChoiceItems(options, checkedArray, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 checkedArray[which] = isChecked;
-                String currentItem = optList.get(which);
+                if(isChecked){
+
+                    mUserSports.add(options[which]);
+
+                }else{
+                    mUserSports.remove(options[which]);
+                }
+                Log.i("JSON SPORTS Check", options[which] + " :  " + Boolean.toString(isChecked));//TODO: Delete this on production
+                Log.i("JSON SPORTS User List", mUserSports.toString());//TODO: Delete this on production
+
 
             }
         });
@@ -163,14 +208,14 @@ public class RegisterActivity extends AppCompatActivity {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i("JSON", String.valueOf(checkedArray));
+                Log.i("JSON SPORTS Selected", mUserSports.toString());//TODO: Delete this on production
             }
         });
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i("JSON", "Cancel");
+                Log.i("JSON", "Cancel");//TODO: Delete this on production
             }
         });
 

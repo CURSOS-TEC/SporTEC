@@ -47,7 +47,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <EditText
-                            android:id="@+id/signin_fragment_name"
+                            android:id="@+id/register_activity_fragment_name"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_person"
@@ -62,7 +62,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <EditText
-                            android:id="@+id/signin_fragment_email"
+                            android:id="@+id/register_activity_fragment_email"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_email"
@@ -76,7 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <EditText
-                            android:id="@+id/signin_fragment_password"
+                            android:id="@+id/register_activity_fragment_password"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_key"
@@ -90,7 +90,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <EditText
-                            android:id="@+id/signin_fragment_password_confirm"
+                            android:id="@+id/register_activity_fragment_password_confirm"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_key"
@@ -127,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <Button
-                            android:id="@+id/signin_fragment_summit"
+                            android:id="@+id/register_activity_signin_summit"
                             android:text="@string/credential_activity_tab_signin"
                             style="@style/SoaButton"
                             android:layout_margin="10dp"/>
