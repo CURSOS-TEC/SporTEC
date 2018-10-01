@@ -1,18 +1,35 @@
 package com.soa4id.tec.jnavarro.sportec;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import credentials.CredentialsHelper;
+import network.API;
 import soaImage.ImageConverter;
-import sport.GetSportAsyncTask;
+
 
 public class RegisterActivity extends AppCompatActivity {
     private View mView;
@@ -27,12 +44,26 @@ public class RegisterActivity extends AppCompatActivity {
     private Bitmap mProfilePicture;
     private String[] mSportOptions;
     private Boolean[] mCheckSports;
+    private String[] mListItems;
+    private boolean[] mCheckedItems;
+    private ArrayList<Integer> mUserItems = new ArrayList<>();
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+
+        mSportOptions = new String[3];
+        mSportOptions[0] = "Sport";
+        mSportOptions[1] = "Sport1";
+        mSportOptions[2] = "Sport2";
+        mCheckedItems = new boolean[mSportOptions.length];
+
+
+
 
         this.mCredentialsHelper = new CredentialsHelper();
         this.mSportOptions = getResources().getStringArray(R.array.sports_local_options);
@@ -66,8 +97,13 @@ public class RegisterActivity extends AppCompatActivity {
         this.mButtonSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GetSportAsyncTask task = new GetSportAsyncTask(RegisterActivity.this);
-                task.execute("param");
+
+                /*try{
+                    renderSportOptions();
+                }catch (Exception e){
+                    Log.i("JSON",e.getCause().toString());
+                }*/
+
             }
         });
 
@@ -103,8 +139,98 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Gets the sport options to select
      */
-    public void renderSportOptions(){
+    public void renderSportOptions(String[] options){
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+        final boolean[] checkedArray = new boolean[options.length];
+        final List<String> optList = Arrays.asList(options);
+        builder.setTitle("Title");
+        builder.setMultiChoiceItems(options, checkedArray, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                checkedArray[which] = isChecked;
+                String currentItem = optList.get(which);
+
+            }
+        });
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("JSON", String.valueOf(checkedArray));
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("JSON", "Cancel");
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
     }
 
+
+    private class GetSportAsyncTask extends AsyncTask<String,Void, Boolean> {
+        private Context mContext;
+        private ProgressDialog mProgress;
+        private JsonObject mJson;
+
+        /**
+         *
+         * @param context
+         */
+        public GetSportAsyncTask(Context context){
+            this.mContext = context;
+        }
+
+        /**
+         * Fetch the  sports
+         * @param params
+         * @return
+         */
+        @Override
+        protected Boolean doInBackground(final String... params) {
+            mJson = new JsonObject();
+            Ion.with(mContext)
+                .load(API.SPORTS)
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                    if (e != null){
+
+                    }else{
+                        List<String> resultSports;
+                        for (int i = 0; i < result.size(); i ++){
+                            String sportName = result.get(i).getAsString();
+                        }
+
+                    }
+                    Log.i("JSON SPORTS",result.toString());//TODO: Delete this on production
+                    mProgress.dismiss();
+                    }
+                });
+            return null;
+        }
+
+        /**
+         * Load the dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgress = new ProgressDialog(this.mContext);
+            mProgress.setMessage(mContext.getResources().getString(R.string.message_fetchsports));
+            mProgress.setIndeterminate(true);
+            mProgress.show();
+
+        }
+
+    }
+
+
 }
+
