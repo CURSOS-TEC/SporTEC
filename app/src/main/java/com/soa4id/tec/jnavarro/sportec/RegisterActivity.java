@@ -97,12 +97,12 @@ public class RegisterActivity extends AppCompatActivity {
         this.mButtonSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                /*try{
-                    renderSportOptions();
+                String[] sports = getApplication().getResources().getStringArray(R.array.sports_local_options);
+                try{
+                    renderSportOptions(sports);
                 }catch (Exception e){
                     Log.i("JSON",e.getCause().toString());
-                }*/
+                }
 
             }
         });
@@ -143,7 +143,7 @@ public class RegisterActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
         final boolean[] checkedArray = new boolean[options.length];
         final List<String> optList = Arrays.asList(options);
-        builder.setTitle("Title");
+        builder.setTitle("Deportes");
         builder.setMultiChoiceItems(options, checkedArray, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
