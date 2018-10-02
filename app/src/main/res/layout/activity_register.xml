@@ -54,7 +54,8 @@
                             android:drawableTint="@android:color/white"
                             android:singleLine="true"
                             android:hint="@string/credential_activity_user_name"
-                            android:inputType="text" />
+                            android:inputType="text"
+                            android:text="SoaUser"/>
                     </android.support.design.widget.TextInputLayout>
 
 
@@ -69,7 +70,8 @@
                             android:drawableTint="@android:color/white"
                             android:singleLine="true"
                             android:hint="@string/credential_activity_user_email"
-                            android:inputType="textEmailAddress" />
+                            android:inputType="textEmailAddress"
+                            android:text="soauser@mail.com"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -83,6 +85,7 @@
                             android:drawableTint="@android:color/white"
                             android:singleLine="true"
                             android:hint="@string/credential_activity_user_password"
+                            android:text="soauser"
                             android:inputType="textPassword" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -97,7 +100,8 @@
                             android:drawableTint="@android:color/white"
                             android:singleLine="true"
                             android:hint="@string/credential_activity_user_password_confirm"
-                            android:inputType="textPassword" />
+                            android:inputType="textPassword"
+                            android:text="soauser"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout

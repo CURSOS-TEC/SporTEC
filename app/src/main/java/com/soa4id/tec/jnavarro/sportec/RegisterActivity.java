@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -143,9 +144,6 @@ public class RegisterActivity extends AppCompatActivity {
         String password = this.mEditTextPassword.getText().toString();
         String passwordConfirm = this.mEditTextPasswordConfirm.getText().toString();
 
-
-
-
         if( !(name.equals(""))
             && !(email.equals(""))
             && !(password.equals(""))
@@ -158,9 +156,20 @@ public class RegisterActivity extends AppCompatActivity {
                         newUser.addProperty("email",email);
                         newUser.addProperty("password",password);
                         newUser.addProperty("username",email);//TODO: Change to a real username
-                        newUser.addProperty("photo",this.mProfilePic);
-                        newUser.addProperty("sports",this.mUserSports.toString());
-                        Log.i("JSON User usmmit", newUser.get("sports").toString());//:TODO Delete this on production
+                        //newUser.addProperty("photo",this.mProfilePic);
+                        newUser.addProperty("photo","test");
+                        JsonArray jArray = new JsonArray();
+                        for (int i = 0; i < mUserSports.size(); i++){
+                            JsonPrimitive primitive = new JsonPrimitive(mUserSports.get(i).toString());
+                            jArray.add(primitive);
+                        }
+                        newUser.add("sportsPreferred",jArray);
+
+                        RegisterAsyncTask task = new RegisterAsyncTask(newUser);
+                        task.execute("");
+
+                        Log.i("JSON User summit", newUser.toString());//:TODO Delete this on production
+
                     }else{
                         Snackbar.make(getCurrentFocus(),"Foto de Perfil no seleccionada",Snackbar.LENGTH_SHORT).show();
                     }
@@ -169,7 +178,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.i("JSON ERROR", ee.getMessage());//:TODO Delete this on production
                 }
             }else {
-                Snackbar.make(getCurrentFocus(),"Contraseñas deben de ser igules",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getCurrentFocus(),"Contraseñas deben de ser iguales",Snackbar.LENGTH_SHORT).show();
                 this.mEditTextPassword.setText("");
                 this.mEditTextPasswordConfirm.setText("");
             }
@@ -284,6 +293,62 @@ public class RegisterActivity extends AppCompatActivity {
             }
             catch(Exception e){
                 Log.i("JSON SPORTS ERROR",e.getMessage());//TODO: Delete this on production
+            }
+            return null;
+        }
+
+        /**
+         * Load the dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgress = new ProgressDialog(RegisterActivity.this);
+            mProgress.setMessage(RegisterActivity.this.getResources().getString(R.string.message_fetchsports));
+            mProgress.setIndeterminate(true);
+            mProgress.show();
+        }
+
+    }
+
+
+    /**
+     * Class that registers an user
+     */
+    private class RegisterAsyncTask extends AsyncTask<String,Void, Boolean> {
+        private ProgressDialog mProgress;
+        private JsonObject mJson;
+
+        /**
+         * Constructor
+         */
+        public RegisterAsyncTask(JsonObject mJson){
+            this.mJson = mJson;
+        }
+
+        /**
+         * Fetch the  sports
+         * @param params
+         * @return
+         */
+        @Override
+        protected Boolean doInBackground(final String... params) {
+            try{
+                Ion.with(RegisterActivity.this)
+                        .load(API.REGISTER)
+                        .setJsonObjectBody(mJson)
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                Log.i("JSON POST", "Try to register: "+mJson.toString());
+                                Log.i("JSON POST",result.toString());
+                                mProgress.dismiss();
+                            }
+                        });
+            }
+            catch(Exception e){
+
             }
             return null;
         }
