@@ -96,7 +96,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public String checkUserCredentials (){
+    public JsonObject checkUserCredentials (){
         String result = "";
         SQLiteDatabase db = this.getReadableDatabase();
         // Define a projection that specifies which columns from the database
@@ -111,7 +111,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 UserContract.User.COLUMN_NAME_USER_SPORTS
 
         };
-
+        JsonObject resultJson = null;
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
@@ -127,14 +127,15 @@ public class DBHelper extends SQLiteOpenHelper {
                     null,                   // don't filter by row groups
                     sortOrder               // The sort order
             );
+
             if(cursor.getCount() > 0){
                 List itemIds = new ArrayList<>();
                 while(cursor.moveToNext()) {
-                    String itemId = cursor.getString(
-                            cursor.getColumnIndexOrThrow(UserContract.User.COLUMN_NAME_USER_NAME));
-                    itemIds.add(itemId);
                     try{
-                        JsonObject resultJson = new JsonObject();
+                        resultJson = new JsonObject();
+                        String itemId = cursor.getString(
+                                cursor.getColumnIndexOrThrow(UserContract.User.COLUMN_NAME_USER_NAME));
+                        itemIds.add(itemId);
                         resultJson.addProperty(UserContract.User.COLUMN_NAME_USER_NAME, itemId);
                         String userId = cursor.getString(
                                 cursor.getColumnIndexOrThrow(UserContract.User.COLUMN_NAME_USER_DB_ID));
@@ -151,7 +152,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         String token =cursor.getString(
                                 cursor.getColumnIndexOrThrow(UserContract.User.COLUMN_NAME_USER_TOKEN));
                         resultJson.addProperty(UserContract.User.COLUMN_NAME_USER_TOKEN, token);
-                        Log.i("JSON  result", resultJson.toString());
+
                     }
                     catch(Exception ee){
                         Log.i("JSON  error fetch data", ee.getMessage());
@@ -161,6 +162,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 }
                 cursor.close();
                 result =  String.valueOf(itemIds.get(0)) ;
+                result =  resultJson.toString();
 
             }else{
                 Log.i("JSON credentials", "Nobody is logged");
@@ -170,7 +172,7 @@ public class DBHelper extends SQLiteOpenHelper {
         catch (Exception e){
             Log.i("JOSN credentials: error", e.getMessage());
         }
-        return result;
+        return resultJson;
     }
 
     /**

@@ -156,8 +156,8 @@ public class RegisterActivity extends AppCompatActivity {
                         newUser.addProperty("email",email);
                         newUser.addProperty("password",password);
                         newUser.addProperty("username",email);//TODO: Change to a real username
-                        //newUser.addProperty("photo",this.mProfilePic);
-                        newUser.addProperty("photo","test");
+                        newUser.addProperty("photo",this.mProfilePic);
+                        //newUser.addProperty("photo","test");
                         JsonArray jArray = new JsonArray();
                         for (int i = 0; i < mUserSports.size(); i++){
                             JsonPrimitive primitive = new JsonPrimitive(mUserSports.get(i).toString());

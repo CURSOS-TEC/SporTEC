@@ -49,10 +49,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private void checkUserLogged () {
         DBHelper helper = new DBHelper(MainActivity.this);
-        String result = helper.checkUserCredentials();
+        JsonObject result = helper.checkUserCredentials();
 
-        if (!(result.equals(""))){
-            Toast.makeText(MainActivity.this,result,Toast.LENGTH_SHORT).show();
+        if (result != null){
+            Log.i("JSON MAIN",result.toString());
+
             Intent intent = new Intent(this, Home.class);
             startActivity(intent);
         }else{
