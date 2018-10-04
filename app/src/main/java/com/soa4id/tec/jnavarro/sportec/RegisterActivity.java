@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -58,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ArrayList<String> mUserSports;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
         mCheckedItems = new boolean[mSportOptions.length];
 
         this.mUserSports = new ArrayList<String>();
+
 
 
         this.mCredentialsHelper = new CredentialsHelper();
@@ -110,6 +113,26 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        try{
+            String jsonString = getIntent().getStringExtra("user");
+            if (jsonString != null){
+                Log.i("JSON Profile Editing",jsonString);
+                JsonParser parser = new JsonParser();
+                JsonObject mUserObject = parser.parse(jsonString).getAsJsonObject();
+                this.mEditTextName.setText("");
+                this.mEditTextEmail.setText("");
+                this.mEditTextPassword.setText("");
+                this.mEditTextPasswordConfirm.setText("");
+                this.mButtonSummit.setText("Editar");
+            }else {
+
+                Log.i("JSON Edit","Sign in");
+            }
+        }
+        catch(Exception e){
+            Log.i("JSON Edit Error",e.getMessage());
+
+        }
 
     }
 

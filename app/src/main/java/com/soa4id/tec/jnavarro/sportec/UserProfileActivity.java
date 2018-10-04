@@ -1,9 +1,12 @@
 package com.soa4id.tec.jnavarro.sportec;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView mTextViewDesafios;
     private TextView mUserId;
     private ImageView mProfilePic;
+    private Button mEditButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,22 @@ public class UserProfileActivity extends AppCompatActivity {
         this.mTextViewEmail = findViewById(R.id.profile_email_detail);
         this.mUserId = findViewById(R.id.profile_user_id);
         this.mProfilePic = findViewById(R.id.profile_profileImg);
+        this.mEditButton =findViewById(R.id.profile_edit_button_);
+        this.mEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    Intent intent = new Intent(UserProfileActivity.this,RegisterActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("user",mUserObject.toString());
+                    UserProfileActivity.this.startActivity(intent);
+                }
+                catch (Exception e){
+                    Log.i("Log Out", e.getMessage());
+                }
+            }
+        });
+
         fillData();
 
 
