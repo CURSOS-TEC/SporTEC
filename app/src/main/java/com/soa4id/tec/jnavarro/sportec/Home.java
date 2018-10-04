@@ -174,6 +174,15 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            try{
+                Intent intent = new Intent(Home.this,TeamsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("user",mUserObject.toString());
+                Home.this.startActivity(intent);
+            }
+            catch (Exception e){
+                Log.i("JSON TEAMS Error", e.getMessage());
+            }
 
         } else if (id == R.id.nav_slideshow) {
             try{

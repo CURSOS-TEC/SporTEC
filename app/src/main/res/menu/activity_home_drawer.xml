@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_retos"
-            android:title="Retos" />
+            android:title="Equipos" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_person"
