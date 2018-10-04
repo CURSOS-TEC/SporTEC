@@ -103,37 +103,21 @@ public class Home extends AppCompatActivity
 
         ImageConverter converter  = new ImageConverter();
 
-        try{
-            Bitmap bitmap = converter.StringToBitMap(objectUser.get("image").toString()
-                    .replace("\"","")
-                    .replace("\\n",""));
-            this.mUserPhoto.setImageBitmap(bitmap);
 
-        }
-        catch(Exception e){
-            Log.i("JSON image", e.getMessage());
-        }
+        Bitmap bitmap = converter.StringToBitMap(objectUser.get("image").toString()
+                .replace("\"","")
+                .replace("\\n",""));
+        this.mUserPhoto.setImageBitmap(bitmap);
 
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewSimpleItems);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mListNews = new ArrayList<>();
+        mAdapter = new NewsItemAdapter(mListNews,this);
+        mRecyclerView.setAdapter(mAdapter);
 
-        try{
-            mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewSimpleItems);
-            mRecyclerView.setHasFixedSize(true);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            mListNews = new ArrayList<>();
-            mAdapter = new NewsItemAdapter(mListNews,this);
-            mRecyclerView.setAdapter(mAdapter);
-
-        }catch (Exception e){
-            Log.i("JSON CRECYCLER", e.getMessage() );
-        }
-
-        try {
-            SportsAsyncTask task = new SportsAsyncTask();
-            task.execute("test");
-        }catch(Exception e){
-            Log.i("JSON TASK", e.getMessage() );
-        }
-
+        SportsAsyncTask task = new SportsAsyncTask();
+        task.execute("test");
 
     }
 
@@ -192,9 +176,27 @@ public class Home extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
-
+            try{
+                Intent intent = new Intent(Home.this,UserProfileActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("user",mUserObject.toString());
+                Home.this.startActivity(intent);
+            }
+            catch (Exception e){
+                Log.i("Log Out", e.getMessage());
+            }
         } else if (id == R.id.nav_manage) {
-
+            CredentialsHelper helper = new CredentialsHelper();
+            helper.setmContext(Home.this);
+            helper.logout();
+            try{
+                Intent intent = new Intent(Home.this,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Home.this.startActivity(intent);
+            }
+            catch (Exception e){
+                Log.i("Log Out", e.getMessage());
+            }
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
