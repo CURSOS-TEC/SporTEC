@@ -25,11 +25,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +54,7 @@ public class Home extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private List<NewsItem> mListNews;
+    private JsonObject mUserObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +83,7 @@ public class Home extends AppCompatActivity
         Log.i("JSON Home",jsonString);
         JsonParser parser = new JsonParser();
         JsonObject objectUser = parser.parse(jsonString).getAsJsonObject();
+        this.mUserObject = objectUser;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -216,9 +223,14 @@ public class Home extends AppCompatActivity
          */
         @Override
         protected Boolean doInBackground(final String... params) {
+
+            String query_encoded = API.encodeQuery(mUserObject);
+
+
+            String uri = API.ARTICLES+"?filter="+query_encoded;
             try{
                 Ion.with(Home.this)
-                        .load(API.ARTICLES)
+                        .load(uri)
                         .asJsonArray()
                         .setCallback(new FutureCallback<JsonArray>() {
                             @Override
