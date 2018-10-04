@@ -13,5 +13,6 @@ public class UserContract {
         public static final String COLUMN_NAME_USER_NAME = "username";
         public static final String COLUMN_NAME_USER_EMAIL = "email";
         public static final String COLUMN_NAME_USER_IMAGE = "image";
+        public static final String COLUMN_NAME_USER_TOKEN = "token";
     }
 }

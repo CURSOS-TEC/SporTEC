@@ -9,15 +9,27 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher">
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme.Credentials" >
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.Credentials">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:theme="@style/AppTheme.Credentials" />
-        <activity android:name=".RegisterActivity"  android:theme="@style/AppTheme.Credentials"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.Credentials" />
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.Credentials" />
+        <activity android:name=".UserProfileActivity"
+            android:theme="@style/AppTheme.Credentials"/>
+        <activity android:name=".NewsActivity"
+            android:theme="@style/AppTheme.Credentials"/>
+        <activity android:name=".ListChallengesActivity"
+            android:theme="@style/AppTheme.Credentials"></activity>
     </application>
 
 </manifest>

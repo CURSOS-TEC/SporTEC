@@ -14,7 +14,12 @@
     <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
     </style>
 
-    <!-- Base application theme. -->
+    <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">false</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+
     <style name="AppTheme.Credentials" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/background</item>

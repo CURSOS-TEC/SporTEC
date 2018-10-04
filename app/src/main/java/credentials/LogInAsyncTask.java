@@ -12,6 +12,9 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.soa4id.tec.jnavarro.sportec.MainActivity;
 import com.soa4id.tec.jnavarro.sportec.R;
+
+import java.net.URL;
+
 import network.API;
 import storage.DBHelper;
 
@@ -62,15 +65,37 @@ public class LogInAsyncTask extends AsyncTask<String,Void, Boolean> {
                             Toast.makeText(mContext,msg,Toast.LENGTH_SHORT).show();
                         }else{
                             Log.i("JSON OK ",result.get("userId").toString());//TODO: Delete this on production
-                            String userId = result.get("userId").toString();
-                            String userName = "Test Name";
-                            String email = credentials[0] ;
-                            String image =  "image";
-                            helper.removeCredentials();
-                            helper.addUserCredentials(userId,userName,email,image);
-                            Toast.makeText(mContext,credentials[0],Toast.LENGTH_SHORT).show();
-                        }
 
+                            final String userId = result.get("userId").toString().replace("\"","");
+                            final String access_token = result.get("id").toString().replace("\"","");
+
+                            String uri =  API.USER_ID.concat(userId).concat("?access_token=").concat(access_token);
+                            Log.i("JSON OK token", uri);//TODO: Delete this on production
+                            Ion.with(mContext)
+                                .load(uri)
+                                .setHeader("Authorization", access_token)
+                                .asJsonObject()
+                                .setCallback(new FutureCallback<JsonObject>() {
+                                    @Override
+                                    public void onCompleted(Exception e, JsonObject result) {
+                                        Log.i("JSON USER", result.toString());
+                                        //user
+                                        String userName =result.get("name").toString().replace("\"","");
+                                        //username
+                                        String email = credentials[0];
+                                        //email
+                                        String image = result.get("photo").toString().replace("\"","");;
+                                        //photo
+                                        String sports = result.get("sportsPreferred").toString();
+                                        helper.removeCredentials();
+                                        helper.addUserCredentials(userId,userName,email,image,access_token);
+                                        Toast.makeText(mContext,credentials[0],Toast.LENGTH_SHORT).show();
+                                        Log.i("JSON OK token", access_token);//TODO: Delete this on production
+
+                                        mProgress.dismiss();
+                                    }
+                                });
+                        }
                         mProgress.dismiss();
                     }
                 });

@@ -19,7 +19,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     UserContract.User.COLUMN_NAME_USER_DB_ID + " TEXT," +
                     UserContract.User.COLUMN_NAME_USER_NAME + " TEXT," +
                     UserContract.User.COLUMN_NAME_USER_EMAIL + " TEXT, " +
-                    UserContract.User.COLUMN_NAME_USER_IMAGE + " TEXT) " ;
+                    UserContract.User.COLUMN_NAME_USER_IMAGE + " TEXT," +
+                    UserContract.User.COLUMN_NAME_USER_TOKEN + " TEXT) " ;
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS" + UserContract.User.TABLE_NAME;
@@ -101,7 +102,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 UserContract.User.COLUMN_NAME_USER_DB_ID,
                 UserContract.User.COLUMN_NAME_USER_NAME,
                 UserContract.User.COLUMN_NAME_USER_EMAIL,
-                UserContract.User.COLUMN_NAME_USER_IMAGE
+                UserContract.User.COLUMN_NAME_USER_IMAGE,
+                UserContract.User.COLUMN_NAME_USER_TOKEN
         };
 
 
@@ -127,7 +129,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     itemIds.add(itemId);
                 }
                 cursor.close();
-                result =  String.valueOf(itemIds.get(0));
+                result =  String.valueOf(itemIds.get(0)) ;
                 Log.i("JSON credentials", String.valueOf(itemIds.get(0)));
             }else{
                 Log.i("JSON credentials", "Nobody is logged");
@@ -148,7 +150,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param image
      * @return
      */
-    public long addUserCredentials (String userId,String username, String email, String image){
+    public long addUserCredentials (String userId,String username, String email, String image,String access_token){
         SQLiteDatabase db = this.getWritableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -156,6 +158,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(UserContract.User.COLUMN_NAME_USER_NAME, username);
         values.put(UserContract.User.COLUMN_NAME_USER_EMAIL, email);
         values.put(UserContract.User.COLUMN_NAME_USER_IMAGE, image);
+        values.put(UserContract.User.COLUMN_NAME_USER_TOKEN, access_token);
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(UserContract.User.TABLE_NAME, null, values);
         return newRowId;
