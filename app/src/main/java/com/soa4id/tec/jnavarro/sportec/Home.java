@@ -67,8 +67,15 @@ public class Home extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Datos Actualizados", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                try {
+                    mListNews.clear();
+                    SportsAsyncTask task = new SportsAsyncTask();
+                    task.execute("test");
+                }catch(Exception e){
+                    Log.i("JSON TASK", e.getMessage() );
+                }
             }
         });
 
