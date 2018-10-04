@@ -79,6 +79,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.ViewHo
                 article.addProperty("title" ,item.getmTitle());
                 article.addProperty("description" ,item.getmDescription());
                 article.addProperty("photoUri",item.getmURIphoto());
+                article.addProperty("category",item.getmCategory());
                 try{
                     Intent intent = new Intent(mContext,NewsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
