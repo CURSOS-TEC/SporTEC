@@ -14,12 +14,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import credentials.CredentialsHelper;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private TextView mUserName;
+    private TextView mUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +49,19 @@ public class Home extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+        String jsonString = getIntent().getStringExtra("user");
+        Log.i("JSON Home",jsonString);
+        JsonParser parser = new JsonParser();
+        JsonObject objectUser = parser.parse(jsonString).getAsJsonObject();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        this.mUserEmail = headerView.findViewById(R.id.nav_header_user_email);
+        this.mUserName = headerView.findViewById(R.id.nav_header_user_name);
+        this.mUserName.setText(objectUser.get("username").toString().replace("\"",""));
+        this.mUserEmail.setText(objectUser.get("email").toString().replace("\"",""));
     }
 
     @Override

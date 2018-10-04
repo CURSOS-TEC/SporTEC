@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("JSON MAIN",result.toString());
 
             Intent intent = new Intent(this, Home.class);
+            intent.putExtra("user",result.toString());
             startActivity(intent);
         }else{
             Intent intent = new Intent(this, LoginActivity.class);
