@@ -7,8 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class DBHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
@@ -130,10 +133,35 @@ public class DBHelper extends SQLiteOpenHelper {
                     String itemId = cursor.getString(
                             cursor.getColumnIndexOrThrow(UserContract.User.COLUMN_NAME_USER_NAME));
                     itemIds.add(itemId);
+                    try{
+                        JsonObject resultJson = new JsonObject();
+                        resultJson.addProperty(UserContract.User.COLUMN_NAME_USER_NAME, itemId);
+                        String userId = cursor.getString(
+                                cursor.getColumnIndexOrThrow(UserContract.User.COLUMN_NAME_USER_DB_ID));
+                        resultJson.addProperty(UserContract.User.COLUMN_NAME_USER_DB_ID, userId);
+                        String email = cursor.getString(
+                                cursor.getColumnIndexOrThrow(UserContract.User.COLUMN_NAME_USER_EMAIL));
+                        resultJson.addProperty(UserContract.User.COLUMN_NAME_USER_EMAIL, email);
+                        String sports =cursor.getString(
+                                cursor.getColumnIndexOrThrow(UserContract.User.COLUMN_NAME_USER_SPORTS));
+                        resultJson.addProperty(UserContract.User.COLUMN_NAME_USER_SPORTS, sports);
+                        String photo =cursor.getString(
+                                cursor.getColumnIndexOrThrow(UserContract.User.COLUMN_NAME_USER_IMAGE));
+                        resultJson.addProperty(UserContract.User.COLUMN_NAME_USER_IMAGE, photo);
+                        String token =cursor.getString(
+                                cursor.getColumnIndexOrThrow(UserContract.User.COLUMN_NAME_USER_TOKEN));
+                        resultJson.addProperty(UserContract.User.COLUMN_NAME_USER_TOKEN, token);
+                        Log.i("JSON  result", resultJson.toString());
+                    }
+                    catch(Exception ee){
+                        Log.i("JSON  error fetch data", ee.getMessage());
+                    }
+
+
                 }
                 cursor.close();
                 result =  String.valueOf(itemIds.get(0)) ;
-                Log.i("JSON credentials", String.valueOf(itemIds.get(0)));
+
             }else{
                 Log.i("JSON credentials", "Nobody is logged");
             }

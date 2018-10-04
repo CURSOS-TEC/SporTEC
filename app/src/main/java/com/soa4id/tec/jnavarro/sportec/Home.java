@@ -1,8 +1,10 @@
 package com.soa4id.tec.jnavarro.sportec;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import credentials.CredentialsHelper;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,6 +73,18 @@ public class Home extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(Home.this,"Login out", Toast.LENGTH_SHORT).show();
+            CredentialsHelper helper = new CredentialsHelper();
+            helper.setmContext(Home.this);
+            helper.logout();
+            try{
+                Intent intent = new Intent(Home.this,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Home.this.startActivity(intent);
+            }
+            catch (Exception e){
+                Log.i("Log Out", e.getMessage());
+            }
             return true;
         }
 
