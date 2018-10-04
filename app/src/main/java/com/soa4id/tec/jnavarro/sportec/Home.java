@@ -1,6 +1,7 @@
 package com.soa4id.tec.jnavarro.sportec;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +23,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import credentials.CredentialsHelper;
+import soaImage.ImageConverter;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private TextView mUserName;
     private TextView mUserEmail;
+    private ImageView mUserPhoto;
+    private ImageView mUserPhotoHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +65,23 @@ public class Home extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         this.mUserEmail = headerView.findViewById(R.id.nav_header_user_email);
         this.mUserName = headerView.findViewById(R.id.nav_header_user_name);
+        this.mUserPhoto = headerView.findViewById(R.id.imageView_user);
         this.mUserName.setText(objectUser.get("username").toString().replace("\"",""));
         this.mUserEmail.setText(objectUser.get("email").toString().replace("\"",""));
+
+        ImageConverter converter  = new ImageConverter();
+
+        try{
+            Bitmap bitmap = converter.StringToBitMap(objectUser.get("image").toString()
+                    .replace("\"","")
+                    .replace("\\n",""));
+            this.mUserPhoto.setImageBitmap(bitmap);
+
+        }
+        catch(Exception e){
+            Log.i("JSON image", e.getMessage());
+        }
+
     }
 
     @Override

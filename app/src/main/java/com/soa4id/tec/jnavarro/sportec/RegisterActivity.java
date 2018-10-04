@@ -123,8 +123,10 @@ public class RegisterActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         this.mProfilePicture = (Bitmap)data.getExtras().get("data");
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(this.mProfilePicture,100,100,false);
         ImageConverter converter = new ImageConverter();
-        this.mProfilePic = converter.BitMapToString(this.mProfilePicture);
+        this.mProfilePic = converter.BitMapToString(scaledBitmap);
+        Log.i("JSON register",mProfilePic);
         String message = getResources().getString(R.string.message_phototaken);
         Snackbar.make(
                 this.mView,

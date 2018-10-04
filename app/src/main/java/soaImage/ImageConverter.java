@@ -3,6 +3,7 @@ package soaImage;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 
@@ -31,6 +32,7 @@ public class ImageConverter {
             Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
         } catch(Exception e) {
+            Log.i("JSON Converter",e.getMessage());// TODO: Delete this
             e.getMessage();
             return null;
         }
