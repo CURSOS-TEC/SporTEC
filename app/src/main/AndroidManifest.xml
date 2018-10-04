@@ -24,12 +24,19 @@
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/AppTheme.Credentials" />
-        <activity android:name=".UserProfileActivity"
-            android:theme="@style/AppTheme.Credentials"/>
-        <activity android:name=".NewsActivity"
-            android:theme="@style/AppTheme.Credentials"/>
-        <activity android:name=".ListChallengesActivity"
-            android:theme="@style/AppTheme.Credentials"></activity>
+        <activity
+            android:name=".UserProfileActivity"
+            android:theme="@style/AppTheme.Credentials" />
+        <activity
+            android:name=".NewsActivity"
+            android:theme="@style/AppTheme.Credentials" />
+        <activity
+            android:name=".ListChallengesActivity"
+            android:theme="@style/AppTheme.Credentials" />
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.Launcher.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -9,9 +9,9 @@
     </style>
 
     <style name="AppTheme.Launcher">
-    <item name="android:windowBackground">@drawable/launch_screen</item>
-    <!-- Optional, on Android 5+ you can modify the colorPrimaryDark color to match the windowBackground color for further branding-->
-    <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <!-- Optional, on Android 5+ you can modify the colorPrimaryDark color to match the windowBackground color for further branding-->
+        <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
     </style>
 
     <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -38,16 +38,25 @@
     </style>
 
     <style name="SoaButton">
-        <item name="android:layout_gravity"> center</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:background">@drawable/rounded_button</item>
-        <item name="android:layout_width">wrap_content </item>
-        <item name="android:layout_height">wrap_content </item>
-        <item name="android:textColor"> @color/colorPrimaryText</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
         <item name="android:elevation">15dp</item>
-        <item name="android:padding">4dp </item>
-        <item name="android:layout_margin">1dp </item>
-        <item name="android:textSize">12dp </item>
-        <item name="android:layout_weight">1 </item>
+        <item name="android:padding">4dp</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:layout_weight">1</item>
     </style>
+
+    <style name="AppTheme.Launcher.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Launcher.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.Launcher.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

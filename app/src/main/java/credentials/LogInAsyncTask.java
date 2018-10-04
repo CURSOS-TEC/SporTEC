@@ -88,7 +88,7 @@ public class LogInAsyncTask extends AsyncTask<String,Void, Boolean> {
                                         //photo
                                         String sports = result.get("sportsPreferred").toString();
                                         helper.removeCredentials();
-                                        helper.addUserCredentials(userId,userName,email,image,access_token);
+                                        helper.addUserCredentials(userId,userName,email,image,access_token,sports);
                                         Toast.makeText(mContext,credentials[0],Toast.LENGTH_SHORT).show();
                                         Log.i("JSON OK token", access_token);//TODO: Delete this on production
 
