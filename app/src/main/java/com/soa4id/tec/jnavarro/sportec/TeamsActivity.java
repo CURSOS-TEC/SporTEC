@@ -83,11 +83,13 @@ public class TeamsActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(final String... params) {
 
-            //String query_encoded = API.encodeQuery(mUserObject);
+
+            String query_encoded = API.encodeTeamsQuery(mUserObject.get("email").getAsString().replace("\"",""));
 
 
-            //String uri = API.ARTICLES+"?filter="+query_encoded;
-            String uri = API.TEAMS;
+
+            String uri = API.TEAMS+"?filter="+query_encoded;
+            //String uri = API.TEAMS;
             try{
                 Ion.with(TeamsActivity.this)
                         .load(uri)

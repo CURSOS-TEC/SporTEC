@@ -3,7 +3,9 @@ package network;
 import android.util.Log;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,4 +55,32 @@ public class API {
         }
         return result;
     };
+
+    public static  String encodeTeamsQuery (String email){
+        String result = "";
+        /*
+        * {"where": { "members": { "inq": ["soauser@mail.com"]}}}*/
+        try{
+            JSONArray array = new JSONArray();
+            array.put(email);
+
+            JSONObject inq = new JSONObject();
+            inq.put("inq",array);
+
+            JSONObject members = new JSONObject();
+            members.put("members",inq);
+
+            JSONObject where = new JSONObject();
+            where.put("where",members);
+
+            Log.i("JSON QUERY",where.toString());
+            result = URLEncoder.encode(where.toString());
+            Log.i("JSON QUERY",result);
+        }catch (Exception e){
+            Log.i("JSON QUERY ERROR",e.getMessage());
+        }
+
+
+        return result;
+    }
 }
