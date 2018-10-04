@@ -1,10 +1,15 @@
 package com.soa4id.tec.jnavarro.sportec;
 
+import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -19,11 +24,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import credentials.CredentialsHelper;
+import network.API;
 import soaImage.ImageConverter;
+import sport.NewsItem;
+import sport.NewsItemAdapter;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +45,10 @@ public class Home extends AppCompatActivity
     private TextView mUserEmail;
     private ImageView mUserPhoto;
     private ImageView mUserPhotoHome;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private List<NewsItem> mListNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +99,27 @@ public class Home extends AppCompatActivity
         catch(Exception e){
             Log.i("JSON image", e.getMessage());
         }
+
+
+        try{
+            mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewSimpleItems);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            mListNews = new ArrayList<>();
+            mAdapter = new NewsItemAdapter(mListNews,this);
+            mRecyclerView.setAdapter(mAdapter);
+
+        }catch (Exception e){
+            Log.i("JSON CRECYCLER", e.getMessage() );
+        }
+
+        try {
+            SportsAsyncTask task = new SportsAsyncTask();
+            task.execute("test");
+        }catch(Exception e){
+            Log.i("JSON TASK", e.getMessage() );
+        }
+
 
     }
 
@@ -151,5 +190,74 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    /**
+     * Class that registers an user
+     */
+    private class SportsAsyncTask extends AsyncTask<String,Void, Boolean> {
+        private ProgressDialog mProgress;
+        private JsonArray mJson;
+
+
+        /**
+         * Constructor
+         */
+        public SportsAsyncTask(){
+
+            mJson = new JsonArray();
+        }
+
+        /**
+         * Fetch the  sports
+         * @param params
+         * @return
+         */
+        @Override
+        protected Boolean doInBackground(final String... params) {
+            try{
+                Ion.with(Home.this)
+                        .load(API.ARTICLES)
+                        .asJsonArray()
+                        .setCallback(new FutureCallback<JsonArray>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonArray result) {
+                                Log.i("JSON ARTICLES",result.toString());
+
+                                for (int i = 0; i < result.size(); i++){
+                                    JsonObject object = result.get(i).getAsJsonObject();
+                                    mListNews.add(new NewsItem("id",
+                                            object.get("title").getAsString(),
+                                            object.get("shortDescription").getAsString(),
+                                            object.get("longDescription").getAsString(),
+                                            object.get("category").getAsString(),
+                                            object.get("uriImage").getAsString()));
+
+                                }
+                                mAdapter = new NewsItemAdapter(mListNews,Home.this);
+                                mRecyclerView.setAdapter(mAdapter);
+                                mProgress.dismiss();
+                            }
+                        });
+            }
+            catch(Exception e){
+                Log.i("JSON ARTICLES ERROR",e.getMessage());
+            }
+            return null;
+        }
+
+        /**
+         * Load the dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgress = new ProgressDialog(Home.this);
+            mProgress.setMessage(Home.this.getResources().getString(R.string.message_sports));
+            mProgress.setIndeterminate(true);
+            mProgress.show();
+        }
+
     }
 }

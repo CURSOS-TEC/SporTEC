@@ -7,4 +7,5 @@ public class API {
     public static String USER =  API_BASE + "/SoaUsers";
     public static String SPORTS =  API_BASE + "/Sports";
     public static String USER_ID =  API_BASE + "/SoaUsers/";
+    public static String ARTICLES =  API_BASE + "/SportArticles";
 }
