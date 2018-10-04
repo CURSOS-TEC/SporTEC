@@ -20,6 +20,7 @@ public class API {
     public static String ARTICLES =  API_BASE + "/SportArticles";
     public static String DELETE_USER = USER_ID;
     public static String EDIT_USER = USER_ID;
+    public static String TEAMS = API_BASE + "/Teams";
 
     /**
      * Encode Query method

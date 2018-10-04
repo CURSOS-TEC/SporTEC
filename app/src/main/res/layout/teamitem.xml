@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Description"
-                android:layout_below="@+id/textItemHead"
+                android:layout_below="@+id/team_item_textItemHead"
                 android:layout_toRightOf="@+id/team_item_cardview_image"/>
 
 
