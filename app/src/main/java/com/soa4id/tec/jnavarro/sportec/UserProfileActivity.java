@@ -72,7 +72,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         ImageConverter converter  = new ImageConverter();
         this.mTextViewEquipos.setText("1");
-        Bitmap bitmap = converter.StringToBitMap(mUserObject.get("uriImage").toString()
+        Bitmap bitmap = converter.StringToBitMap(mUserObject.get("image").toString()
                 .replace("\"","")
                 .replace("\\n",""));
         this.mProfilePic.setImageBitmap(bitmap);
