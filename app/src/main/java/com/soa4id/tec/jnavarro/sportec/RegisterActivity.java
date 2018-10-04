@@ -38,6 +38,8 @@ import credentials.LogInAsyncTask;
 import network.API;
 import soaImage.ImageConverter;
 
+import static network.API.EDIT_USER;
+
 
 public class RegisterActivity extends AppCompatActivity {
     private View mView;
@@ -57,6 +59,8 @@ public class RegisterActivity extends AppCompatActivity {
     private ArrayList<Integer> mUserItems = new ArrayList<>();
     private String mProfilePic;
     private ArrayList<String> mUserSports;
+    private JsonObject mEditUserJson;
+    private Boolean mEdit = false;
 
 
 
@@ -117,8 +121,10 @@ public class RegisterActivity extends AppCompatActivity {
             String jsonString = getIntent().getStringExtra("user");
             if (jsonString != null){
                 Log.i("JSON Profile Editing",jsonString);
+                mEdit = true;
                 JsonParser parser = new JsonParser();
-                JsonObject mUserObject = parser.parse(jsonString).getAsJsonObject();
+                mEditUserJson = parser.parse(jsonString).getAsJsonObject();
+
                 this.mEditTextName.setText("");
                 this.mEditTextEmail.setText("");
                 this.mEditTextPassword.setText("");
@@ -358,23 +364,49 @@ public class RegisterActivity extends AppCompatActivity {
          */
         @Override
         protected Boolean doInBackground(final String... params) {
-            try{
-                Ion.with(RegisterActivity.this)
-                        .load(API.REGISTER)
-                        .setJsonObjectBody(mJson)
-                        .asJsonObject()
-                        .setCallback(new FutureCallback<JsonObject>() {
-                            @Override
-                            public void onCompleted(Exception e, JsonObject result) {
-                                Log.i("JSON POST", "Try to register: "+mJson.toString());
-                                Log.i("JSON POST",result.toString());
-                                mProgress.dismiss();
-                            }
-                        });
-            }
-            catch(Exception e){
+            String uri = API.REGISTER;
+            if(mEdit){
+                uri = API.EDIT_USER + mEditUserJson.get("userId").getAsString().replace("\"","");
+
+                Log.i("JSON POST Edit URI", uri);
+                try{
+                    Ion.with(RegisterActivity.this)
+                            .load("PATCH",uri)
+                            .setJsonObjectBody(mJson)
+                            .asJsonObject()
+                            .setCallback(new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+                                    Log.i("JSON POST", "Try to register: "+mJson.toString());
+                                    Log.i("JSON POST",result.toString());
+                                    mProgress.dismiss();
+                                }
+                            });
+                }
+                catch(Exception e){
+                    Log.i("JSON PATCH Register",e.getMessage());
+                }
+            }else{
+                try{
+                    Ion.with(RegisterActivity.this)
+                            .load(uri)
+                            .setJsonObjectBody(mJson)
+                            .asJsonObject()
+                            .setCallback(new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+                                    Log.i("JSON POST", "Try to register: "+mJson.toString());
+                                    Log.i("JSON POST",result.toString());
+                                    mProgress.dismiss();
+                                }
+                            });
+                }
+                catch(Exception e){
+                    Log.i("JSON POST Register",e.getMessage());
+                }
 
             }
+
             return null;
         }
 

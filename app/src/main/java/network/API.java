@@ -18,6 +18,14 @@ public class API {
     public static String SPORTS =  API_BASE + "/Sports";
     public static String USER_ID =  API_BASE + "/SoaUsers/";
     public static String ARTICLES =  API_BASE + "/SportArticles";
+    public static String DELETE_USER = USER_ID;
+    public static String EDIT_USER = USER_ID;
+
+    /**
+     * Encode Query method
+     * @param userObject
+     * @return
+     */
     public static String encodeQuery (JsonObject userObject){
 
         String result = "";
